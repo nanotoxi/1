@@ -21,7 +21,7 @@ from typing import Optional, List, Any
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from pydantic import BaseModel
 import jwt
 
@@ -252,9 +252,34 @@ def run_prediction(params: dict) -> dict:
 
 # ── Routes ────────────────────────────────────────────────────────
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 def root():
-    return {"service": "Project Titan API", "version": "1.0.0", "status": "running"}
+    """Landing page when opening the backend URL in a browser."""
+    return """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Nanotox AI API</title>
+        <style>
+            body { font-family: system-ui, sans-serif; max-width: 600px; margin: 3rem auto; padding: 0 1rem; }
+            h1 { color: #333; }
+            a { color: #2563eb; }
+            .links { margin-top: 1.5rem; }
+            .links a { display: inline-block; margin-right: 1rem; margin-bottom: 0.5rem; }
+        </style>
+    </head>
+    <body>
+        <h1>Nanotox AI API</h1>
+        <p>Backend is running. Use the links below or call the API with a client.</p>
+        <div class="links">
+            <a href="/docs">API docs (Swagger)</a>
+            <a href="/redoc">ReDoc</a>
+            <a href="/health">Health check</a>
+        </div>
+    </body>
+    </html>
+    """
 
 @app.get("/health")
 def health():
