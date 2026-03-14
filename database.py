@@ -27,11 +27,24 @@ def _load_dotenv_if_needed():
 def _get_database_url():
     """Read DATABASE_URL when needed (so .env is always applied)."""
     _load_dotenv_if_needed()
-    url = os.getenv("DATABASE_URL", "").strip() or None
+    raw = os.getenv("DATABASE_URL", "").strip() or None
+    if not raw:
+        return None
+    # If Railway injected an unresolved reference (e.g. ${{...}}postgresql://...postgresql://...),
+    # use only the first valid postgresql:// URL.
+    if "postgresql://" in raw:
+        start = raw.find("postgresql://")
+        rest = raw[start:]
+        # Take up to the next "postgresql://" or end (avoids duplicated URLs)
+        next_start = rest.find("postgresql://", 1)
+        url = rest[:next_start] if next_start > 0 else rest
+    else:
+        url = raw
+    url = url.strip()
     if not url:
         return None
-    # Railway and many cloud Postgres require SSL
-    if "sslmode" not in url.lower() and ("rlwy.net" in url or "railway" in url.lower()):
+    # Public Railway Postgres (rlwy.net / .railway.app) often needs sslmode; internal (postgres.railway.internal) does not
+    if "sslmode" not in url.lower() and ".railway.internal" not in url and ("rlwy.net" in url or ".railway.app" in url):
         url = url + ("&" if "?" in url else "?") + "sslmode=require"
     return url
 
