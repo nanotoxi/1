@@ -1,0 +1,37 @@
+# Single backend (FastAPI) - run with: python Api.py
+fastapi>=0.100.0
+uvicorn[standard]>=0.22.0
+psycopg2-binary>=2.9.0
+PyJWT>=2.0.0
+
+# Core Flask and web server dependencies (optional, for main.py)
+Flask==2.3.3
+Werkzeug==2.3.7
+gunicorn==21.2.0
+
+# Machine Learning and Data Science (versions must match the environment that saved the .pkl models)
+pandas>=2.1.1,<3
+numpy>=2.0.0,<3
+scikit-learn==1.7.1
+joblib>=1.3.2
+
+# Email functionality
+secure-smtplib==0.1.1
+
+# File handling
+openpyxl==3.1.2
+xlrd==2.0.1
+
+# Additional ML libraries
+xgboost==1.7.6
+lightgbm==4.0.0
+catboost==1.2.2
+
+# Production server
+waitress==2.1.2
+
+# Environment variables
+python-dotenv==1.0.0
+
+# CORS support (for frontend integration)
+flask-cors==4.0.0

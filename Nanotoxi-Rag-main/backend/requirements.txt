@@ -1,0 +1,23 @@
+# Nanotoxi AI - Backend (Flask + ML + RAG)
+# Core
+flask>=3.0.0
+pandas>=2.0.0
+
+# RAG - Phase 1: Open-source embeddings & vector store
+sentence-transformers>=2.2.0
+chromadb>=0.4.0
+faiss-cpu>=1.7.0
+
+# Dataset ingestion
+openpyxl>=3.1.0
+
+# Local LLM (free, small Hugging Face models)
+transformers>=4.41.0
+accelerate>=0.20.0
+sentencepiece>=0.2.0
+
+# Production server
+gunicorn>=21.2.0
+
+# Tests
+pytest>=7.0.0
